@@ -344,38 +344,61 @@ if start_btn:
                     log(f"  ✅ Found {len(links)} total links for {city}. Starting extraction...")
 
                     # 4. EXTRACTION LOOP
-                    for link in links:
+                   # 4. EXTRACTION LOOP
+                     for link in links:            
                         try:
                             driver.get(link)
-                            time.sleep(1)
+                            # Give a small buffer for the title/DOM to update
+                            time.sleep(2) 
                     
-                            # --- Robust business name extraction ---
+                            # --- ROBUST NAME EXTRACTION ---
                             name = None
+                            
+                            # Strategy A: Standard H1 extraction
                             try:
-                                name_el = WebDriverWait(driver, 15).until(
-                                    EC.presence_of_element_located((By.CSS_SELECTOR, "h1.DUwDvf"))
+                                # Wait for visibility, not just presence
+                                name_el = WebDriverWait(driver, 5).until(
+                                    EC.visibility_of_element_located((By.CSS_SELECTOR, "h1.DUwDvf"))
                                 )
-                    
-                                # wait until text is actually populated
-                                WebDriverWait(driver, 10).until(
-                                    lambda d: name_el.text.strip() != ""
-                                )
-                    
                                 name = name_el.text.strip()
                             except:
-                                name = None
-                    
+                                pass
+
+                            # Strategy B: Browser Title Fallback (Most Reliable)
+                            if not name:
+                                page_title = driver.title
+                                if " - Google Maps" in page_title:
+                                    name = page_title.split(" - Google Maps")[0].strip()
+                                elif "Google Maps" not in page_title:
+                                    # Sometimes title is just the business name
+                                    name = page_title.strip()
+
+                            # Strategy C: Javascript forced text (Last Resort)
+                            if not name:
+                                try:
+                                    name = driver.execute_script(
+                                        "return document.querySelector('h1.DUwDvf').textContent"
+                                    ).strip()
+                                except:
+                                    name = "Unknown Business"
+                                    
+                            log(f"    👉 Found: {name}")
+
                             # --- Find Phone ---
                             raw_phone = None
                     
                             # Try the aria-label method first
-                            phone_elements = driver.find_elements(
-                                By.XPATH, "//button[contains(@aria-label,'Phone')]"
-                            )
-                            if phone_elements:
-                                raw_phone = phone_elements[0].get_attribute("aria-label")
-                            else:
-                                # Fallback: scan all info div text
+                            try:
+                                phone_elements = driver.find_elements(
+                                    By.XPATH, "//button[contains(@aria-label,'Phone')]"
+                                )
+                                if phone_elements:
+                                    raw_phone = phone_elements[0].get_attribute("aria-label")
+                            except:
+                                pass
+                                
+                            # Fallback: scan all info div text if aria-label failed
+                            if not raw_phone:
                                 info_divs = driver.find_elements(By.CLASS_NAME, "Io6YTe")
                                 for div in info_divs:
                                     if re.search(r"\d{8,}", div.text):
@@ -402,7 +425,8 @@ if start_btn:
                                 if len(st.session_state.results) % 10 == 0:
                                     log(f"📦 Progress: {len(st.session_state.results)} leads saved.")
                     
-                        except:
+                        except Exception as e:
+                            # log(f"Error extracting {link}: {e}") # Optional: Uncomment for deep debugging
                             continue  # Skip to next link if one fails
  # Skip to next link if one fails
                 except Exception as e:
@@ -435,4 +459,5 @@ if st.session_state.results:
         file_name=f"Wellsure_Leads_{business_name}.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         use_container_width=True
+
     )

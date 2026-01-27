@@ -14,34 +14,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 # ================= CONFIGURATION =================
 INDIAN_CITIES = {
-        "India": [
-        "Andhra Pradesh",
-        "Arunachal Pradesh",
-        "Assam",
-        "Bihar",
-        "Chhattisgarh",
-        "Goa",
-        "Gujarat",
-        "Haryana",
-        "Himachal Pradesh",
-        "Jharkhand",
-        "Karnataka",
-        "Kerala",
-        "Madhya Pradesh",
-        "Maharashtra",
-        "Manipur",
-        "Meghalaya",
-        "Mizoram",
-        "Nagaland",
-        "Odisha",
-        "Punjab",
-        "Rajasthan",
-        "Sikkim",
-        "Tamil Nadu",
-        "Telangana",
-        "Tripura",
-        "Uttar Pradesh",
-        "Uttarakhand",
+    "India": [
+        "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
+        "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh",
+        "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh",
+        "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland",
+        "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
+        "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand",
         "West Bengal"
     ],
     "Andaman and Nicobar Islands": ["Port Blair"],
@@ -87,10 +66,6 @@ INDIAN_CITIES = {
         "Shimla", "Dharamshala", "Solan", "Mandi", "Baddi",
         "Kullu", "Manali", "Bilaspur", "Chamba", "Hamirpur"
     ],
-    "Jammu and Kashmir": [
-        "Srinagar", "Jammu", "Anantnag", "Baramulla", "Udhampur",
-        "Kathua", "Sopore"
-    ],
     "Jharkhand": [
         "Ranchi", "Jamshedpur", "Dhanbad", "Bokaro", "Deoghar",
         "Phusro", "Hazaribagh", "Giridih", "Ramgarh", "Medininagar"
@@ -106,8 +81,6 @@ INDIAN_CITIES = {
         "Kannur", "Alappuzha", "Palakkad", "Kottayam", "Malappuram",
         "Manjeri", "Thalassery", "Ponnani"
     ],
-    "Ladakh": ["Leh", "Kargil"],
-    "Lakshadweep": ["Kavaratti"],
     "Madhya Pradesh": [
         "Indore", "Bhopal", "Jabalpur", "Gwalior", "Ujjain",
         "Sagar", "Dewas", "Satna", "Ratlam", "Rewa",
@@ -116,61 +89,29 @@ INDIAN_CITIES = {
     ],
     "Maharashtra": [
         "Mumbai", "Pune", "Nagpur", "Thane", "Nashik",
-        "Kalyan-Dombivli", "Vasai-Virar", "Aurangabad", "Navi Mumbai", "Solapur",
-        "Mira-Bhayandar", "Bhiwandi", "Amravati", "Nanded", "Kolhapur",
-        "Ulhasnagar", "Sangli", "Malegaon", "Jalgaon", "Akola",
-        "Latur", "Dhule", "Ahmednagar", "Chandrapur", "Parbhani",
-        "Ichalkaranji", "Jalna", "Bhusawal", "Satara", "Beed",
-        "Yavatmal", "Gondia", "Baramati"
-    ],
-    "Manipur": ["Imphal", "Thoubal"],
-    "Meghalaya": ["Shillong", "Tura", "Jowai"],
-    "Mizoram": ["Aizawl", "Lunglei"],
-    "Nagaland": ["Dimapur", "Kohima"],
-    "Odisha": [
-        "Bhubaneswar", "Cuttack", "Rourkela", "Berhampur", "Sambalpur",
-        "Puri", "Balasore", "Bhadrak", "Baripada", "Jharsuguda", "Jeypore"
-    ],
-    "Puducherry": ["Puducherry", "Karaikal", "Yanam", "Mahe"],
-    "Punjab": [
-        "Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda",
-        "Mohali", "Hoshiarpur", "Pathankot", "Moga", "Abohar",
-        "Malerkotla", "Khanna", "Phagwara", "Firozpur", "Kapurthala"
+        "Aurangabad", "Navi Mumbai", "Solapur"
     ],
     "Rajasthan": [
         "Jaipur", "Jodhpur", "Kota", "Bikaner", "Ajmer",
         "Udaipur", "Bhilwara", "Alwar", "Bharatpur", "Sikar",
         "Pali", "Sri Ganganagar", "Bhiwadi", "Hanumangarh", "Beawar"
     ],
-    "Sikkim": ["Gangtok", "Namchi"],
     "Tamil Nadu": [
         "Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem",
-        "Tirunelveli", "Tiruppur", "Vellore", "Erode", "Thoothukudi",
-        "Dindigul", "Thanjavur", "Ranipet", "Sivakasi", "Karur",
-        "Hosur", "Nagercoil", "Kanchipuram", "Kumbakonam", "Cuddalore"
+        "Tirunelveli", "Tiruppur", "Vellore", "Erode", "Thoothukudi"
     ],
     "Telangana": [
-        "Hyderabad", "Warangal", "Nizamabad", "Khammam", "Karimnagar",
-        "Ramagundam", "Mahbubnagar", "Nalgonda", "Adilabad", "Suryapet",
-        "Siddipet", "Miryalaguda"
+        "Hyderabad", "Warangal", "Nizamabad", "Khammam", "Karimnagar"
     ],
-    "Tripura": ["Agartala", "Udaipur", "Dharmanagar"],
     "Uttar Pradesh": [
         "Lucknow", "Kanpur", "Ghaziabad", "Agra", "Meerut",
-        "Varanasi", "Prayagraj", "Bareilly", "Aligarh", "Moradabad",
-        "Saharanpur", "Gorakhpur", "Noida", "Firozabad", "Jhansi",
-        "Muzaffarnagar", "Mathura", "Ayodhya", "Rampur", "Shahjahanpur",
-        "Farrukhabad", "Maunath Bhanjan", "Hapur", "Etawah", "Mirzapur",
-        "Bulandshahr", "Greater Noida"
+        "Varanasi", "Prayagraj", "Bareilly", "Aligarh", "Moradabad"
     ],
     "Uttarakhand": [
-        "Dehradun", "Haridwar", "Roorkee", "Haldwani", "Rudrapur",
-        "Kashipur", "Rishikesh", "Nainital"
+        "Dehradun", "Haridwar", "Roorkee", "Haldwani", "Rudrapur"
     ],
     "West Bengal": [
-        "Kolkata", "Howrah", "Asansol", "Siliguri", "Durgapur",
-        "Bardhaman", "Malda", "Baharampur", "Habra", "Kharagpur",
-        "Shantipur", "Dankuni", "Haldia", "Raiganj", "Krishnanagar"
+        "Kolkata", "Howrah", "Asansol", "Siliguri", "Durgapur"
     ]
 }
 
@@ -210,254 +151,95 @@ if "logs" not in st.session_state:
 
 def log(msg):
     st.session_state.logs.append(msg)
-    log_placeholder.code(
-        "\n".join(st.session_state.logs[-20:]),
-        language="text"
-    )
+    log_placeholder.code("\n".join(st.session_state.logs[-20:]), language="text")
 
 
-# ================= UI HEADER =================
-st.set_page_config(
-    page_title="Wellsure Scraper",
-    page_icon="🏢",
-    layout="wide"
-)
+# ================= UI =================
+st.set_page_config(page_title="Wellsure Scraper", page_icon="🏢", layout="wide")
 
-st.markdown(
-    """
-    <style>
-    .main-title {
-        font-size: 4.5rem;
-        font-weight: 900;
-        text-align: center;
-        color: #002147;
-    }
-    .sub-title {
-        text-align: center;
-        color: #B8860B;
-        margin-bottom: 30px;
-    }
-    </style>
-    <div class="main-title">WELLSURE</div>
-    <div class="sub-title">Automated Lead Discovery System</div>
-    """,
-    unsafe_allow_html=True
-)
-
-
-# ================= SIDEBAR =================
 with st.sidebar:
     st.header("🔍 Search Settings")
-
     business_name = st.text_input("Business / Brand Name", "MRF")
     state = st.selectbox("State", list(INDIAN_CITIES.keys()))
 
-    # --- New "Select All" Logic ---
     all_cities = INDIAN_CITIES[state]
     select_all = st.checkbox("Select all cities in " + state)
 
-    if select_all:
-        selected_cities = st.multiselect("Cities", all_cities, default=all_cities)
-    else:
-        selected_cities = st.multiselect("Cities", all_cities, default=[all_cities[0]])
-    # ------------------------------
+    selected_cities = (
+        all_cities if select_all else st.multiselect("Cities", all_cities, default=[all_cities[0]])
+    )
 
-    keywords_input = st.text_area(
+    keywords = [k.strip() for k in st.text_area(
         "Keywords (comma separated)",
         "authorized dealer, distributor, showroom"
-    )
-    keywords = [k.strip() for k in keywords_input.split(",") if k.strip()]
+    ).split(",") if k.strip()]
 
-    st.markdown("---")
     start_btn = st.button("🚀 START SCRAPING", use_container_width=True)
 
 
-# ================= MAIN UI & DASHBOARD =================
-# ================= MAIN UI =================
-m1, m2 = st.columns(2)
-total_leads_metric = m1.metric("Leads Collected", len(st.session_state.results))
-status_placeholder = m2.empty()
-status_placeholder.metric("Status", "Ready")
-
-# Only show the log to keep the UI light
 st.subheader("📜 Activity Log")
 log_placeholder = st.empty()
 
-# ================= CORE SCRAPER =================
+
+# ================= SCRAPER =================
 if start_btn:
-    if not business_name or not selected_cities:
-        st.error("Please enter business name and select cities.")
-        st.stop()
-
     driver = setup_driver()
-    status_placeholder.metric("Status", "Scraping...")
-    
-    # Counter for internal tracking
-    new_leads_since_log = 0 
 
- # ================= IMPROVED SCROLL & EXTRACTION =================
     try:
         for city in selected_cities:
             for key in keywords:
                 query = f"{business_name} {key} {city}"
-                log(f"🔎 Target: {query}")
-                status_placeholder.metric("Status", f"Loading {city}...")
-                
-                url = f"https://www.google.com/maps/search/{query.replace(' ', '+')}"
-                driver.get(url)
+                log(f"🔎 {query}")
 
-                try:
-                    # 1. Wait for the results feed to actually appear
-                    wait = WebDriverWait(driver, 15)
-                    feed_css = "div[role='feed']"
-                    feed = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, feed_css)))
-                    
-                    # 2. ROBUST SCROLL LOOP
-                    log("  ⬇️ Scrolling to end of list (this may take a minute)...")
-                    last_height = driver.execute_script("return arguments[0].scrollHeight", feed)
-                    
-                    while True:
-                        # Scroll down to the bottom of the feed
-                        driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", feed)
-                        
-                        # Wait for new items to load
-                        time.sleep(3.5) 
-                        
-                        # Check if scroll height has changed
-                        new_height = driver.execute_script("return arguments[0].scrollHeight", feed)
-                        
-                        # Search for the "You've reached the end of the list" text
-                        page_content = driver.page_source
-                        if "You've reached the end of the list" in page_content or new_height == last_height:
-                            # Double check: try one more scroll just in case
-                            driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", feed)
-                            time.sleep(2)
-                            if driver.execute_script("return arguments[0].scrollHeight", feed) == new_height:
+                driver.get(f"https://www.google.com/maps/search/{query.replace(' ', '+')}")
+
+                wait = WebDriverWait(driver, 15)
+                feed = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div[role='feed']")))
+
+                last_height = 0
+                while True:
+                    driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", feed)
+                    time.sleep(3)
+                    new_height = driver.execute_script("return arguments[0].scrollHeight", feed)
+                    if new_height == last_height:
+                        break
+                    last_height = new_height
+
+                links = [a.get_attribute("href") for a in driver.find_elements(By.CSS_SELECTOR, "a.hfpxzc")]
+
+                for link in links:
+                    try:
+                        driver.get(link)
+                        time.sleep(2)
+
+                        name = driver.title.split(" - Google Maps")[0]
+                        phone = None
+
+                        for div in driver.find_elements(By.CLASS_NAME, "Io6YTe"):
+                            if re.search(r"\d{8,}", div.text):
+                                phone = clean_phone(div.text)
                                 break
-                        
-                        last_height = new_height
-                        current_count = len(driver.find_elements(By.CSS_SELECTOR, "a.hfpxzc"))
-                        log(f"  ➜ Loaded {current_count} businesses...")
 
-                    # 3. COLLECT ALL LINKS AFTER SCROLLING IS DONE
-                    links = [a.get_attribute("href") for a in driver.find_elements(By.CSS_SELECTOR, "a.hfpxzc")]
-                    log(f"  ✅ Found {len(links)} total links for {city}. Starting extraction...")
+                        if phone and phone not in {d["Phone"] for d in st.session_state.results}:
+                            st.session_state.results.append({
+                                "Company": name,
+                                "Phone": phone,
+                                "City": city,
+                                "Keyword": key,
+                                "Link": link
+                            })
 
-                    # 4. EXTRACTION LOOP
-                   # 4. EXTRACTION LOOP
-                     for link in links:            
-                        try:
-                            driver.get(link)
-                            # Give a small buffer for the title/DOM to update
-                            time.sleep(2) 
-                    
-                            # --- ROBUST NAME EXTRACTION ---
-                            name = None
-                            
-                            # Strategy A: Standard H1 extraction
-                            try:
-                                # Wait for visibility, not just presence
-                                name_el = WebDriverWait(driver, 5).until(
-                                    EC.visibility_of_element_located((By.CSS_SELECTOR, "h1.DUwDvf"))
-                                )
-                                name = name_el.text.strip()
-                            except:
-                                pass
-
-                            # Strategy B: Browser Title Fallback (Most Reliable)
-                            if not name:
-                                page_title = driver.title
-                                if " - Google Maps" in page_title:
-                                    name = page_title.split(" - Google Maps")[0].strip()
-                                elif "Google Maps" not in page_title:
-                                    # Sometimes title is just the business name
-                                    name = page_title.strip()
-
-                            # Strategy C: Javascript forced text (Last Resort)
-                            if not name:
-                                try:
-                                    name = driver.execute_script(
-                                        "return document.querySelector('h1.DUwDvf').textContent"
-                                    ).strip()
-                                except:
-                                    name = "Unknown Business"
-                                    
-                            log(f"    👉 Found: {name}")
-
-                            # --- Find Phone ---
-                            raw_phone = None
-                    
-                            # Try the aria-label method first
-                            try:
-                                phone_elements = driver.find_elements(
-                                    By.XPATH, "//button[contains(@aria-label,'Phone')]"
-                                )
-                                if phone_elements:
-                                    raw_phone = phone_elements[0].get_attribute("aria-label")
-                            except:
-                                pass
-                                
-                            # Fallback: scan all info div text if aria-label failed
-                            if not raw_phone:
-                                info_divs = driver.find_elements(By.CLASS_NAME, "Io6YTe")
-                                for div in info_divs:
-                                    if re.search(r"\d{8,}", div.text):
-                                        raw_phone = div.text
-                                        break
-                    
-                            phone = clean_phone(raw_phone)
-                    
-                            if phone and phone not in {d["Phone"] for d in st.session_state.results}:
-                                st.session_state.results.append({
-                                    "Company": name,
-                                    "Phone": phone,
-                                    "City": city,
-                                    "Keyword": key,
-                                    "Link": link
-                                })
-                    
-                                total_leads_metric.metric(
-                                    "Leads Collected",
-                                    len(st.session_state.results)
-                                )
-                    
-                                # Log every 10 leads to show progress
-                                if len(st.session_state.results) % 10 == 0:
-                                    log(f"📦 Progress: {len(st.session_state.results)} leads saved.")
-                    
-                        except Exception as e:
-                            # log(f"Error extracting {link}: {e}") # Optional: Uncomment for deep debugging
-                            continue  # Skip to next link if one fails
- # Skip to next link if one fails
-                except Exception as e:
-                    log(f"⚠️ Timeout/No results for: {query}")
-                    continue
-
-        status_placeholder.metric("Status", "Finished")
-        log("🏁 SCRAPING COMPLETE - All data ready for download.")
-
+                    except:
+                        continue
     finally:
         driver.quit()
 
+
 # ================= DOWNLOAD =================
 if st.session_state.results:
-    st.markdown("---")
-    st.success(f"Extraction complete! Total unique leads: **{len(st.session_state.results)}**")
-    
-    # Convert to DataFrame for Download
-    df_final = pd.DataFrame(st.session_state.results)
-    
-    # Create Excel buffer
-    import io
-    buffer = io.BytesIO()
-    with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-        df_final.to_excel(writer, index=False, sheet_name='Leads')
-    
+    df = pd.DataFrame(st.session_state.results)
     st.download_button(
-        label="📥 Download Leads as Excel (.xlsx)",
-        data=buffer.getvalue(),
-        file_name=f"Wellsure_Leads_{business_name}.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        use_container_width=True
-
+        "📥 Download Excel",
+        df.to_excel(index=False),
+        file_name="wellsure_leads.xlsx"
     )

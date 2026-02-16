@@ -91,14 +91,8 @@ def type_in_search(page, value: str) -> bool:
     return False
 
 def no_results_found(page) -> bool:
-    """
-    Detects WhatsApp message:
-    No results found for 'xxxx'
-    """
-    try:
-        return page.locator("text=No results found").count() > 0
-    except:
-        return False
+    # Matches: <span ...>No results found for '234...'</span>
+    return page.locator("span:has-text(\"No results found for '\")").count() > 0
 
 
 def open_chat_from_not_in_contacts(page, phone_digits: str) -> bool:

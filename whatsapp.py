@@ -49,6 +49,20 @@ def extract_and_clean_phone(value) -> str | None:
         return None
 
     return digits
+def wait_for_whatsapp_ready(page, timeout_ms=90000):
+    page.wait_for_function(
+        """
+        () => {
+            return (
+                document.querySelector("div[aria-label='Chat list']") ||
+                document.querySelector("input[placeholder*='Search']") ||
+                document.querySelector("[aria-label='New chat']") ||
+                document.querySelector("[data-icon='new-chat-outline']")
+            );
+        }
+        """,
+        timeout=timeout_ms
+    )
 
 def main():
     df = pd.read_excel(EXCEL_PATH)
@@ -66,8 +80,12 @@ def main():
         page = context.new_page()
 
         page.goto("https://web.whatsapp.com")
-        print("Scan the QR in WhatsApp Web, then press Enter here...")
-        input()
+
+        print("Waiting for WhatsApp Web to finish loading...")
+        wait_for_whatsapp_ready(page)
+
+        print("WhatsApp is ready. Starting automation.")
+
 
         def click_new_chat():
             candidates = [

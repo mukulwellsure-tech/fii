@@ -12,11 +12,11 @@ MESSAGE = "Hello! This is an automated message."
 USER_DATA_DIR = "wa_profile"
 
 WHATSAPP_LOAD_TIMEOUT_MS = 120_000
-RESULT_WAIT_MS = 45_000
-CHATBOX_WAIT_MS = 30_000
+RESULT_WAIT_MS = 20_000          # reduced (was 45s)
+CHATBOX_WAIT_MS = 15_000         # reduced (was 30s)
 
-WAIT_AFTER_SEND_SEC = 1.2
-WAIT_BETWEEN_NUMBERS_SEC = 1.0
+WAIT_AFTER_SEND_SEC = 0.25       # reduced (was 1.2s)
+WAIT_BETWEEN_NUMBERS_SEC = 0.25  # reduced (was 1.0s)
 # ==========================
 
 
@@ -84,25 +84,56 @@ def type_in_search(page, value: str) -> bool:
             loc.first.click(timeout=8000)
             page.keyboard.press("Control+A")
             page.keyboard.press("Backspace")
-            page.keyboard.type(value, delay=35)
+            page.keyboard.type(value, delay=20)  # faster typing
             return True
         except:
             continue
     return False
 
 
+def no_results_found(page, raw_query_digits: str) -> bool:
+    """
+    Detect:
+      No results found for '1234567890'
+    WhatsApp may show the number with or without country code, so we just look for
+    the key phrase and any quotes.
+    """
+    # Fast check without waiting
+    if page.locator("text=No results found").count() == 0:
+        return False
+
+    # If it exists, confirm it refers to our search (best-effort)
+    # We match last 10 digits because that's what user sees most often.
+    last10 = raw_query_digits[-10:]
+    msg = page.locator("text=No results found").first
+    try:
+        # Expand nearby text content
+        container = msg.locator("xpath=ancestor::div[1]")
+        txt = container.inner_text(timeout=1000)
+        digits_in_txt = re.sub(r"\D", "", txt)
+        return (last10 in digits_in_txt) or ("No results found" in txt)
+    except:
+        return True
+
+
 def open_chat_from_not_in_contacts(page, phone_digits: str) -> bool:
+    """
+    Click the search result row that is rendered as:
+      <span title="+91 89497 56134">+91 89497 56134</span>
+    """
     last10 = phone_digits[-10:]
 
-    try:
-        page.locator("text=Not in your contacts").wait_for(timeout=RESULT_WAIT_MS)
-    except:
-        pass
+    # Wait for either: spans appear OR "No results found" appears
+    t0 = time.time()
+    while (time.time() - t0) * 1000 < RESULT_WAIT_MS:
+        if no_results_found(page, phone_digits):
+            return False
+        if page.locator("span[title]").count() > 0:
+            break
+        time.sleep(0.15)
 
     spans = page.locator("span[title]")
-    try:
-        spans.first.wait_for(timeout=RESULT_WAIT_MS)
-    except:
+    if spans.count() == 0:
         return False
 
     count = spans.count()
@@ -111,7 +142,6 @@ def open_chat_from_not_in_contacts(page, phone_digits: str) -> bool:
             title = spans.nth(i).get_attribute("title") or ""
             title_digits = re.sub(r"\D", "", title)
             if last10 in title_digits:
-                # click the span (or clickable parent)
                 try:
                     spans.nth(i).click(timeout=8000)
                     return True
@@ -131,23 +161,13 @@ def open_chat_from_not_in_contacts(page, phone_digits: str) -> bool:
 
 
 def send_message(page, msg: str):
-    """
-    FIXED: target the actual message editor element from your DOM:
-      div[contenteditable='true'][role='textbox'][aria-placeholder='Type a message'][data-tab='10']
-    """
     editor = page.locator(
         "div[contenteditable='true'][role='textbox'][aria-placeholder='Type a message'][data-tab='10']"
     )
     editor.wait_for(timeout=CHATBOX_WAIT_MS)
-
-    # Focus properly (WA can ignore typing if not focused)
     editor.click(timeout=8000)
-
-    # Try to set text in a reliable way:
-    # (contenteditable doesn't support fill always; we do keyboard)
-    page.keyboard.type(msg, delay=15)
+    page.keyboard.type(msg, delay=10)  # faster typing
     page.keyboard.press("Enter")
-
     time.sleep(WAIT_AFTER_SEND_SEC)
 
 
@@ -168,7 +188,7 @@ def main():
         page = context.new_page()
         page.goto("https://web.whatsapp.com")
 
-        print("Waiting for WhatsApp Web to be ready (QR scan + sync may take time)...")
+        print("Waiting for WhatsApp Web to be ready...")
         wait_for_whatsapp_ready(page)
         print("✅ WhatsApp ready.")
 
@@ -189,12 +209,28 @@ def main():
                 if not type_in_search(page, phone):
                     raise RuntimeError("Search input not found")
 
-                if not open_chat_from_not_in_contacts(page, phone):
+                # ✅ NEW: handle "No results found for '...'"
+                if no_results_found(page, phone):
                     df.at[idx, "status"] = "NOT_FOUND"
-                    df.at[idx, "note"] = "Number row not clickable"
+                    df.at[idx, "note"] = "No results found"
+                    print(f"{idx+1}/{len(df)} -> {phone}: NOT_FOUND")
+                    time.sleep(WAIT_BETWEEN_NUMBERS_SEC)
                     continue
 
-                # Make sure chat UI is fully loaded before sending
+                # Try to open the number result
+                opened = open_chat_from_not_in_contacts(page, phone)
+                if not opened:
+                    # If not opened because of no results, mark NOT_FOUND; otherwise generic NOT_FOUND
+                    if no_results_found(page, phone):
+                        df.at[idx, "status"] = "NOT_FOUND"
+                        df.at[idx, "note"] = "No results found"
+                    else:
+                        df.at[idx, "status"] = "NOT_FOUND"
+                        df.at[idx, "note"] = "Number row not clickable/visible"
+                    print(f"{idx+1}/{len(df)} -> {phone}: {df.at[idx,'status']}")
+                    time.sleep(WAIT_BETWEEN_NUMBERS_SEC)
+                    continue
+
                 send_message(page, MESSAGE)
 
                 df.at[idx, "status"] = "SENT"
@@ -212,7 +248,7 @@ def main():
 
         out_path = "numbers_result.xlsx"
         df.to_excel(out_path, index=False)
-        print(f"\n✅ Done. Saved results to: {out_path}")
+        print(f"\n✅ Done. Results saved to: {out_path}")
 
         context.close()
 

@@ -90,6 +90,16 @@ def type_in_search(page, value: str) -> bool:
             continue
     return False
 
+def no_results_found(page) -> bool:
+    """
+    Detects WhatsApp message:
+    No results found for 'xxxx'
+    """
+    try:
+        return page.locator("text=No results found").count() > 0
+    except:
+        return False
+
 
 def open_chat_from_not_in_contacts(page, phone_digits: str) -> bool:
     last10 = phone_digits[-10:]
@@ -188,6 +198,11 @@ def main():
 
                 if not type_in_search(page, phone):
                     raise RuntimeError("Search input not found")
+
+                if no_results_found(page):
+                    df.at[idx, "status"] = "NOT_FOUND"
+                    df.at[idx, "note"] = "No results found"
+                    continue
 
                 if not open_chat_from_not_in_contacts(page, phone):
                     df.at[idx, "status"] = "NOT_FOUND"
